@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#142a25">
+  <meta name="description" content="Full-screen Google map for the Goa road trip, with the route and live surrounding places.">
+  <title>OUR GOA — Road &amp; Places Map</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="map-app">
+    <div id="map" class="google-map" aria-label="Google Map showing the Goa route and surrounding places"></div>
+
+    <div id="map-empty" class="map-empty" aria-live="polite">
+      <div class="empty-card">
+        <div class="brand-mark" aria-hidden="true">OG</div>
+        <p class="eyebrow">GOOGLE MAP · ROUTE · LOCAL PLACES</p>
+        <h1>The map is ready to connect.</h1>
+        <p>Enter your restricted Google Maps Platform browser key in the map controls. Google’s map, road route, and live nearby business markers need the key; this page does not draw a guessed road.</p>
+        <button id="empty-open-controls" class="button button-primary" type="button">Open map controls</button>
+      </div>
+    </div>
+
+    <header class="map-topbar">
+      <a class="brand-chip" href="./" aria-label="Our Goa route map home">
+        <span class="brand-dot">OG</span>
+        <span><strong>OUR GOA</strong><small>ROAD &amp; PLACES MAP</small></span>
+      </a>
+      <div class="topbar-center">
+        <span id="route-status" class="status-pill status-pending"><i></i>Map needs Google key</span>
+        <span class="trip-date">MON · 30 NOV 2026</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="top-link" href="https://maps.app.goo.gl/vbp7WQBUKYe4FWTs7?g_st=aw" target="_blank" rel="noopener noreferrer">Original Google route ↗</a>
+        <button id="show-route" class="button button-dark" type="button" title="Show the route across Goa">Show route</button>
+        <button id="panel-toggle" class="icon-button" type="button" aria-controls="map-panel" aria-expanded="true" aria-label="Hide map controls">☰</button>
+      </div>
+    </header>
+
+    <aside id="map-panel" class="map-panel" aria-label="Map, route and places controls">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">THE ROAD, ALL THE WAY THROUGH</p>
+          <h2>Goa route map</h2>
+        </div>
+        <button id="panel-close" class="close-button" type="button" aria-label="Hide map controls">×</button>
+      </div>
+        <p class="panel-subtitle">Google road map with the ordered stops, the two-wheeler road line, and live markers for businesses around the route.</p>
+
+      <details id="key-setup" class="key-setup" open>
+        <summary><span>Connect Google Maps</span><span class="summary-hint">Your restricted key</span></summary>
+        <p>Enable Maps JavaScript API, Routes API and Places API (New). Use website/referrer and API restrictions. The key is used in this page only and is not saved.</p>
+        <label for="maps-key">Google Maps browser key</label>
+        <div class="key-row">
+          <input id="maps-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your restricted key">
+          <button id="connect-map" class="button button-primary" type="button">Connect &amp; draw</button>
+        </div>
+        <div id="key-status" class="helper-status" aria-live="polite">No key has been entered.</div>
+      </details>
+
+      <section class="route-section" aria-labelledby="route-heading">
+        <div class="section-title-row">
+          <div><p class="eyebrow">FIVE REQUIRED STOPS</p><h3 id="route-heading">Mark the road</h3></div>
+          <span class="mode-tag">TWO-WHEELER · BETA</span>
+        </div>
+        <label class="finish-label" for="finish-scenario">Route finish</label>
+        <select id="finish-scenario" class="finish-select">
+          <option value="arpora">Arpora · as in supplied link</option>
+          <option value="mapusa">Arpora, then separate return to Mapusa</option>
+        </select>
+        <button id="draw-route" class="button button-route" type="button"><span aria-hidden="true">↗</span> Draw Google two-wheeler route</button>
+        <div id="route-message" class="route-message" role="status">Route order is verified. The Google road line appears here after you connect a key and calculate it.</div>
+        <div class="route-metrics">
+          <div><small>ROAD DISTANCE</small><strong id="route-distance">—</strong></div>
+          <div><small>RIDING TIME</small><strong id="route-duration">—</strong></div>
+        </div>
+        <ol id="stop-list" class="stop-list" aria-label="Route stops in order"></ol>
+        <p class="access-note"><b>Access note:</b> the Butterfly Beach pin may resolve to a mainland road approach; boat/trail access to the sand is separate. Monday karting and Betul access are unconfirmed.</p>
+        <a id="computed-route" class="directions-link" href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer">Open this ordered route in Google Maps ↗</a>
+      </section>
+
+      <section class="map-layers" aria-label="Google map style">
+        <div class="section-title-row"><div><p class="eyebrow">MAP VIEW</p><h3>See the surrounding area</h3></div></div>
+        <div class="layer-buttons" role="group" aria-label="Map layer">
+          <button type="button" data-map-type="roadmap" class="selected">Road</button>
+          <button type="button" data-map-type="hybrid">Hybrid</button>
+          <button type="button" data-map-type="satellite">Satellite</button>
+          <button type="button" data-map-type="terrain">Terrain</button>
+        </div>
+        <button id="fit-route" class="button button-light button-full" type="button">⌖ Fit the whole route on map</button>
+      </section>
+
+      <section class="places-section" aria-labelledby="places-heading">
+        <div class="section-title-row">
+          <div><p class="eyebrow">SHOPS · FOOD · SERVICES</p><h3 id="places-heading">Places around the road</h3></div>
+        </div>
+        <p class="places-intro">The Google map keeps its road and area labels. For the restaurants you asked about, the site searches separately around each of stops A, B, C, D and E—not just across one large route rectangle.</p>
+        <div class="around-stops-box">
+          <div class="around-stops-head">
+            <div><p class="eyebrow">POINT-BY-POINT SEARCH</p><h4>Restaurants near A–E</h4></div>
+            <span class="nearby-limit">5 stop areas</span>
+          </div>
+          <div class="radius-row">
+            <label for="restaurant-radius">Radius around each pin</label>
+            <select id="restaurant-radius" class="finish-select">
+              <option value="1000">1 km</option>
+              <option value="3000">3 km</option>
+              <option value="5000" selected>5 km</option>
+              <option value="10000">10 km</option>
+            </select>
+          </div>
+          <button id="search-stop-restaurants" class="button button-food" type="button">Mark restaurants around A–E</button>
+          <div id="restaurant-status" class="places-status" aria-live="polite">Connect Google Maps and draw the road to load restaurant markers around all five points.</div>
+          <div id="restaurant-stop-results" class="restaurant-stop-results" aria-live="polite"></div>
+          <p class="places-caveat">Google Nearby Search returns up to 20 matches per stop area, not every business. Five searches run per scan; results may overlap and are deduplicated on the map. Google billing/quota may apply.</p>
+        </div>
+        <div class="place-category-grid" role="group" aria-label="Search visible map for other places">
+          <button type="button" data-category="all" class="category-button category-all">All categories</button>
+          <button type="button" data-category="food" class="category-button">Restaurants &amp; cafés</button>
+          <button type="button" data-category="shops" class="category-button">Shops &amp; groceries</button>
+          <button type="button" data-category="fuel" class="category-button">Fuel &amp; repairs</button>
+          <button type="button" data-category="sights" class="category-button">Beaches &amp; sights</button>
+          <button type="button" data-category="stays" class="category-button">Hotels &amp; stays</button>
+        </div>
+        <form id="place-search-form" class="place-search-form">
+          <label for="place-query" class="visually-hidden">Search places in the visible map area</label>
+          <input id="place-query" type="search" placeholder="Search shops, cafés, ATMs…" autocomplete="off">
+          <button class="button button-dark" type="submit" aria-label="Search places">Search</button>
+        </form>
+        <div id="places-status" class="places-status" aria-live="polite">Connect Google Maps, then search a category or a place name.</div>
+        <div id="place-results" class="place-results" aria-live="polite"></div>
+        <p class="places-caveat">These category searches look within the visible map area and return up to 12 results each. They complement the point-by-point restaurant search above; neither is an exhaustive directory. Pan or zoom to explore another area. Results stay in this session.</p>
+      </section>
+
+      <footer class="panel-footer">
+        <span class="legend-route"><i></i> Google two-wheeler route</span>
+        <span class="legend-stop"><i>A</i> ordered route stops</span>
+        <a href="tel:112">Emergency · 112</a>
+      </footer>
+    </aside>
+
+    <div class="map-legend" aria-label="Map marker legend">
+      <span class="legend-route"><i></i> Road route</span>
+      <span class="legend-stop"><i>A</i> Required stops</span>
+      <span class="legend-place"><i></i> Nearby places</span>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+  <script type="module" src="./src/map-app.js"></script>
+</body>
+</html>

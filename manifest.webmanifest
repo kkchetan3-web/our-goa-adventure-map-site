@@ -1,0 +1,11 @@
+{
+  "name": "OUR GOA — THE ADVENTURE MAP",
+  "short_name": "OUR GOA",
+  "description": "Google Maps-powered Goa day-trip companion for 30 November 2026.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f1efe6",
+  "theme_color": "#20372f",
+  "icons": []
+}
