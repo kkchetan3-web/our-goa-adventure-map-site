@@ -7,17 +7,6 @@ export const ROUTE_FIELDS = [
   "routeLabels",
   "warnings",
   "viewport",
-  "legs.path",
-  "legs.distanceMeters",
-  "legs.durationMillis",
-  "legs.staticDurationMillis",
-  "legs.steps.instructions",
-  "legs.steps.maneuver",
-  "legs.steps.distanceMeters",
-  "legs.steps.durationMillis",
-  "legs.steps.startLocation",
-  "legs.steps.endLocation",
-  "legs.steps.path",
 ];
 
 function routeLocation(stop, PlaceClass) {
